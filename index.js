@@ -1,7 +1,18 @@
-const express = require('express')
-// ------------ Express app initialization -------------
-const app = express()
-const port = 3000
+const express = require('express');
+const mongoose = require('mongoose');
+const port = 3000;
+// ------------- Middleware ----------------------------
+const app = express();
+app.use(express.json())
+
+// ---------------- Database Connection -----------------
+mongoose.connect('mongodb://localhost/todo')
+  .then(()=> console.log('Connection Successful')
+  )
+  .catch( err => console.log(err)
+  )
+
+
 
 // ------------- Application Routes --------------------
 
@@ -14,11 +25,6 @@ function errorHandler( err, req, res, next){
     res.status(500).json({ error: err});
 }
 
-
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
 
 app.listen(port, () => {
   console.log(` app listening on port ${port}`)
